@@ -1,18 +1,18 @@
-<template class="main">
-  <div class="main">
+<template class='main'>
+  <div class='main'>
     <div>
       <p>Ошибки</p>
-      <form @submit.prevent="onSubmit">
-        <label for="name">Ник</label>
-        <input type="text" name="name" id="name">
-        <label for="password">Пароль</label>
-        <input type="password" name="password" id="password">
-        <label for="email">Почта</label>
-        <input type="email" name="email" id="email">
-        <input type="submit" class="btn" value="Зарегистрироваться">
+      <form @submit.prevent='onSubmit'>
+        <label for='name'>Ник</label>
+        <input v-model='fio' type='text' name='name' id='name'>
+        <label for='password'>Пароль</label>
+        <input v-model='password' type='password' name='password' id='password'>
+        <label for='email'>Почта</label>
+        <input v-model='email' type='email' name='email' id='email'>
+        <input type='submit' class='btn' value='Зарегистрироваться'>
       </form>
       <p>
-        <router-link to="{name:login}">Уже есть аккаунт?</router-link>
+        <router-link to='{name:login}'>Уже есть аккаунт?</router-link>
       </p>
     </div>
   </div>
@@ -20,11 +20,26 @@
 
 <script>
 export default {
-  name: "TwRegister",
+  name: 'TwRegister',
+  data() {
+    return {
+      email: '',
+      password: '',
+      fio: ''
+    }
+  },
   methods: {
     onSubmit() {
       this.$store.commit('registerStart')
-      this.$store.dispatch('register')
+      this.$store.dispatch('register', {
+        fio: this.fio,
+        email: this.email,
+        password: this.password
+      })
+        .then(credentials => {
+          console.log('успешно зарегестрированный пользователь', credentials.config.data)
+          this.$router.push({name: 'home'})
+        })
       // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его
     }
   },
