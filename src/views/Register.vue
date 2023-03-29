@@ -1,7 +1,7 @@
 <template class='main'>
   <div class='main'>
     <div>
-      <p>Ошибки</p>
+      <TwValidationErrors :validation-errors='validationErrors' />
       <form @submit.prevent='onSubmit'>
         <label for='name'>Ник</label>
         <input v-model='fio' type='text' name='name' id='name'>
@@ -19,8 +19,13 @@
 </template>
 
 <script>
+import TwValidationErrors from '@/components/ValidationErrors'
+
 export default {
   name: 'TwRegister',
+  components: {
+    TwValidationErrors
+  },
   data() {
     return {
       email: '',
@@ -44,8 +49,11 @@ export default {
     }
   },
   computed: {
-    issSubmitting() {
+    isSubmitting() {
       return this.$store.state.auth.isSubmitting
+    },
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
     }
   }
 }

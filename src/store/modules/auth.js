@@ -1,4 +1,6 @@
 import authApi from '@/api/auth'
+import index from 'vuex'
+import {setItem} from '@/helpers/persistanceStorage'
 
 const state = {
   isSubmitting: false,
@@ -28,8 +30,9 @@ const actions = {
     context.commit('registerStart')
     return new Promise(resolve => {
       authApi.register(credentials).then(response => {
-        // console.log(response.data) //токен пользователя
+        // console.log(response.data.data.user_token) //токен пользователя
         context.commit('registerSuccess', credentials)
+        setItem('accessToken', response.data.data.user_token)
         resolve(response)
       })
         .catch(result => {
