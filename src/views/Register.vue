@@ -1,7 +1,7 @@
 <template class='main'>
   <div class='main'>
     <div>
-      <TwValidationErrors :validation-errors='validationErrors' />
+      <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
       <form @submit.prevent='onSubmit'>
         <label for='name'>Ник</label>
         <input v-model='fio' type='text' name='name' id='name'>
