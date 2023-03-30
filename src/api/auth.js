@@ -9,5 +9,6 @@ const login = credentials => {
 }
 
 export default {
-  register
+  register,
+  login
 }

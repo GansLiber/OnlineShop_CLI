@@ -4,11 +4,11 @@
       <h2>Авторизация</h2>
       <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
       <form @submit.prevent='onSubmit'>
-        <label for='name'>Ник</label>
-        <input v-model='fio' type='text' name='name' id='name'>
+        <label for='email'>Почта</label>
+        <input v-model='email' type='email' name='email' id='email'>
         <label for='password'>Пароль</label>
         <input v-model='password' type='password' name='password' id='password'>
-        <input type='submit' class='btn' value='Зарегистрироваться'>
+        <input type='submit' class='btn' value='Войти'>
       </form>
       <p>
         <router-link to='/register'>Хотите зарегистрироваться?</router-link>
@@ -33,13 +33,13 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.commit('registerStart')
-      this.$store.dispatch('register', {
+      this.$store.commit('loginStart')
+      this.$store.dispatch('login', {
         email: this.email,
         password: this.password
       })
         .then(credentials => {
-          console.log('успешно зарегестрированный пользователь', credentials.config.data)
+          console.log('успешно вошедший пользователь', credentials.config.data)
           this.$router.push({name: 'home'})
         })
       // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его

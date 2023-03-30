@@ -1,6 +1,8 @@
 import authApi from '@/api/auth'
 import index from 'vuex'
 import {setItem} from '@/helpers/persistanceStorage'
+import login from '@/views/Login'
+import validationErrors from '@/components/ValidationErrors'
 
 const state = {
   isSubmitting: false,
@@ -35,6 +37,7 @@ const mutations = {
   loginFailure(state, payload) {
     state.isSubmitting = false
     state.validationErrors = payload
+    console.log('loginFailure', state.validationErrors)
   }
 }
 
@@ -49,7 +52,7 @@ const actions = {
         resolve(response)
       })
         .catch(result => {
-          console.log(result.response.data.error.errors)
+          console.log('gg ', result.response.data.error.errors)
           context.commit('registerFailure', result.response.data.error.errors)
         })
     })
@@ -57,8 +60,18 @@ const actions = {
   login(context, credentials) {
     context.commit('loginStart')
     return new Promise(resolve => {
-      context.commit('loginSuccess', credentials)
-      // !!!
+      authApi.login(credentials).then(response => {
+        context.commit('loginSuccess', credentials)
+        console.log('ono', credentials)
+        resolve(response)
+      })
+        .catch(result => {
+          if (result.response.data.error.code === 401) {
+            context.commit('loginFailure', {gg: ['Почта или пароль написаны не верно']})
+          } else {
+            context.commit('loginFailure', result.response.data.error.errors)
+          }
+        })
     })
   }
 }
