@@ -2,15 +2,19 @@
   <div>
     gg
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import TwRegister from "@/views/Register";
+import TwRegister from '@/views/Register'
+import TwLogin from '@/views/Login'
 
 export default {
 
-  components: {TwRegister},
+  components: {
+    TwRegister,
+    TwLogin
+  }
 
 }
 </script>

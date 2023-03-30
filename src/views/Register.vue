@@ -12,7 +12,7 @@
         <input type='submit' class='btn' value='Зарегистрироваться'>
       </form>
       <p>
-        <router-link to='{name:login}'>Уже есть аккаунт?</router-link>
+        <router-link to='/login'>Уже есть аккаунт?</router-link>
       </p>
     </div>
   </div>
