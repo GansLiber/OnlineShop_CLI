@@ -22,6 +22,19 @@ const mutations = {
   registerFailure(state, payload) {
     state.isSubmitting = false
     state.validationErrors = payload
+  },
+  loginStart(state) {
+    state.isSubmitting = true
+    state.validationErrors = null
+  },
+  loginSuccess(state, payload) {
+    state.isSubmitting = false
+    state.currentUser = payload
+    state.isLoggedIn = true
+  },
+  loginFailure(state, payload) {
+    state.isSubmitting = false
+    state.validationErrors = payload
   }
 }
 
@@ -40,10 +53,13 @@ const actions = {
           context.commit('registerFailure', result.response.data.error.errors)
         })
     })
-
-    // setTimeout(() => {
-    //     context.commit('registerStart')
-    // }, 1000)
+  },
+  login(context, credentials) {
+    context.commit('loginStart')
+    return new Promise(resolve => {
+      context.commit('loginSuccess', credentials)
+      // !!!
+    })
   }
 }
 

@@ -1,6 +1,7 @@
 <template class='main'>
   <div class='main'>
     <div>
+      <h2>Авторизация</h2>
       <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
       <form @submit.prevent='onSubmit'>
         <label for='name'>Ник</label>
@@ -27,12 +28,31 @@ export default {
   data() {
     return {
       email: '',
-      password: '',
-      fio: ''
+      password: ''
     }
   },
-  methods: {},
-  computed: {}
+  methods: {
+    onSubmit() {
+      this.$store.commit('registerStart')
+      this.$store.dispatch('register', {
+        email: this.email,
+        password: this.password
+      })
+        .then(credentials => {
+          console.log('успешно зарегестрированный пользователь', credentials.config.data)
+          this.$router.push({name: 'home'})
+        })
+      // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его
+    }
+  },
+  computed: {
+    isSubmitting() {
+      return this.$store.state.auth.isSubmitting
+    },
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
+    }
+  }
 }
 </script>
 

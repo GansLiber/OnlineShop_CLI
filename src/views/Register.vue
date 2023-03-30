@@ -1,6 +1,7 @@
 <template class='main'>
   <div class='main'>
     <div>
+      <h2>Регистрация</h2>
       <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
       <form @submit.prevent='onSubmit'>
         <label for='name'>Ник</label>
