@@ -1,4 +1,5 @@
 <template>
+  <TwTopbar />
   <div>
     gg
   </div>
@@ -6,19 +7,24 @@
 </template>
 
 <script>
-import TwRegister from '@/views/Register'
-import TwLogin from '@/views/Login'
+
+import TwTopbar from '@/components/Topbar'
+import getCurrentUser from '@/store/modules/auth'
 
 export default {
 
   components: {
-    TwRegister,
-    TwLogin
+    TwTopbar
+  },
+  mounted() {
+    this.$store.dispatch('getCurrentUser')
   }
-
 }
 </script>
 
 <style>
-
+* {
+  margin: 0 auto;
+  padding: 0;
+}
 </style>

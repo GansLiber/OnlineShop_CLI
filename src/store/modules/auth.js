@@ -1,10 +1,8 @@
 import authApi from '@/api/auth'
-import index from 'vuex'
 import {setItem} from '@/helpers/persistanceStorage'
-import login from '@/views/Login'
-import validationErrors from '@/components/ValidationErrors'
 
 const state = {
+  isLoading: false,
   isSubmitting: false,
   currentUser: null,
   validationErrors: null,
@@ -38,6 +36,22 @@ const mutations = {
     state.isSubmitting = false
     state.validationErrors = payload
     console.log('loginFailure', state.validationErrors)
+  },
+  getCurrentUserStart(state) {
+    state.isLoading = true
+  },
+  getCurrentUserSuccess(state, payload) {
+    state.isLoading = true
+    state.currentUser = payload
+    state.isLoggedIn = true
+  },
+  getCurrentUserFailure(state) {
+    state.isLoading = false
+    state.isLoggedIn = false
+    state.currentUser = null
+  },
+  loginExit(state) {
+    state.currentUser = null
   }
 }
 
@@ -73,6 +87,22 @@ const actions = {
           }
         })
     })
+  },
+  getCurrentUser(context, credentials) {
+    return new Promise(resolve => {
+      context.commit('getCurrentUserStart')
+      authApi.getCurrentUser().then(response => {
+        context.commit('getCurrentUserSuccess', credentials)
+        console.log('ono', credentials)
+        resolve(response)
+      })
+        .catch(() => {
+          context.commit('getCurrentUserFailure')
+        })
+    })
+  },
+  exit() {
+
   }
 }
 

@@ -8,7 +8,7 @@
         <input v-model='email' type='email' name='email' id='email'>
         <label for='password'>Пароль</label>
         <input v-model='password' type='password' name='password' id='password'>
-        <input type='submit' class='btn' value='Войти'>
+        <input :disabled='isSubmitting' type='submit' class='btn' value='Войти'>
       </form>
       <p>
         <router-link to='/register'>Хотите зарегистрироваться?</router-link>

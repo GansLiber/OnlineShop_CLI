@@ -10,7 +10,7 @@
         <input v-model='password' type='password' name='password' id='password'>
         <label for='email'>Почта</label>
         <input v-model='email' type='email' name='email' id='email'>
-        <input type='submit' class='btn' value='Зарегистрироваться'>
+        <input :disabled='isSubmitting' type='submit' class='btn' value='Зарегистрироваться'>
       </form>
       <p>
         <router-link to='/login'>Уже есть аккаунт?</router-link>
