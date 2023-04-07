@@ -9,7 +9,6 @@
 
 <script>
 // @ is an alias to /src
-import Feed from '@/components/Feed'
 import TwFeed from '@/components/Feed'
 
 export default {
