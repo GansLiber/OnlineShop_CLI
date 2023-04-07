@@ -9,7 +9,6 @@
 <script>
 
 import TwTopbar from '@/components/Topbar'
-import getCurrentUser from '@/store/modules/auth'
 
 export default {
 
@@ -17,7 +16,6 @@ export default {
     TwTopbar
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser')
   }
 }
 </script>

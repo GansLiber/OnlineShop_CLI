@@ -31,7 +31,8 @@ export default {
     return {
       email: '',
       password: '',
-      fio: ''
+      fio: '',
+      token: ''
     }
   },
   methods: {
@@ -43,8 +44,8 @@ export default {
         password: this.password
       })
         .then(credentials => {
-          console.log('успешно зарегестрированный пользователь', credentials.config.data)
-          this.$router.push({name: 'home'})
+          console.log('успешно зарегестрированный пользователь', credentials)
+          this.$router.push({name: 'globFeed'})
         })
       // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его
     }

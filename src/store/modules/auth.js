@@ -1,5 +1,6 @@
 import authApi from '@/api/auth'
 import {setItem} from '@/helpers/persistanceStorage'
+import login from '@/views/Login'
 
 const state = {
   isLoading: false,
@@ -35,23 +36,17 @@ const mutations = {
   loginFailure(state, payload) {
     state.isSubmitting = false
     state.validationErrors = payload
-    console.log('loginFailure', state.validationErrors)
   },
-  getCurrentUserStart(state) {
-    state.isLoading = true
-  },
-  getCurrentUserSuccess(state, payload) {
-    state.isLoading = true
-    state.currentUser = payload
-    state.isLoggedIn = true
-  },
-  getCurrentUserFailure(state) {
+
+  loginExitStart(state) {
+    state.currentUser = null
     state.isLoading = false
     state.isLoggedIn = false
-    state.currentUser = null
   },
-  loginExit(state) {
+  loginExitSuccess(state) {
     state.currentUser = null
+    state.isLoading = false
+    state.isLoggedIn = false
   }
 }
 
@@ -61,6 +56,8 @@ const actions = {
     return new Promise(resolve => {
       authApi.register(credentials).then(response => {
         // console.log(response.data.data.user_token) //токен пользователя
+        credentials.token = response.data.data.user_token
+        console.log('obj T', context)
         context.commit('registerSuccess', credentials)
         setItem('accessToken', response.data.data.user_token)
         resolve(response)
@@ -88,21 +85,12 @@ const actions = {
         })
     })
   },
-  getCurrentUser(context, credentials) {
-    return new Promise(resolve => {
-      context.commit('getCurrentUserStart')
-      authApi.getCurrentUser().then(response => {
-        context.commit('getCurrentUserSuccess', credentials)
-        console.log('ono', credentials)
-        resolve(response)
-      })
-        .catch(() => {
-          context.commit('getCurrentUserFailure')
-        })
+  loginOut(context) {
+    context.commit('loginExitStart')
+    authApi.logout().then(response => {
+      context.commit('loginExitSuccess')
+      console.log(response)
     })
-  },
-  exit() {
-
   }
 }
 

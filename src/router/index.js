@@ -1,30 +1,30 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import Register from "@/views/Register";
+import Register from '@/views/Register'
 import Login from '@/views/Login'
+import GlobalFeed from '@/views/GlobalFeed'
 
 
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: HomeView
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: Login
-    },
+  {
+    path: '/globFeed',
+    name: 'globFeed',
+    component: GlobalFeed
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }
 ]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
+  history: createWebHistory(process.env.BASE_URL),
+  routes
 })
 
 export default router

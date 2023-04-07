@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div>
-      <router-link to='/' class='logo'>Просто купить</router-link>
+      <router-link to='globFeed' class='logo'>Просто купить</router-link>
     </div>
     <div class='menu'>
       <ul v-if='isLoggedIn'>
@@ -9,10 +9,10 @@
         <router-link to='/catalog'>Каталог товаров</router-link>
         <router-link to='/basket'>Корзина</router-link>
         <router-link to='/order'>Оформленные заказы</router-link>
-        <router-link to='/exit'>Выход</router-link>
+        <a @click='loginExit'>Выход</a>
       </ul>
       <ul v-if='!isLoggedIn'>
-        <router-link to='/login' active-class='active'>Авторизация</router-link>
+        <router-link to='/login'>Авторизация</router-link>
         <router-link to='/register'>Регистрация</router-link>
       </ul>
     </div>
@@ -30,7 +30,8 @@ export default {
   },
   methods: {
     loginExit() {
-      return this.$store.state.auth.loginExit
+      this.$store.dispatch('loginOut')
+      this.$router.push({name: 'login'})
     }
   },
   computed: {
@@ -62,7 +63,6 @@ nav > div:first-child {
 
 .userName {
   font-size: 1.3em;
-  left: 12.8em;
   position: relative;
 }
 
@@ -75,6 +75,7 @@ a {
 
 a:hover {
   color: #1a1204;
+  cursor: default;
 }
 
 .logo {
