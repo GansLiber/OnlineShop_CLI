@@ -19,6 +19,16 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/basket',
+    name: 'basket',
+    component: GlobalFeed
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: GlobalFeed
   }
 ]
 

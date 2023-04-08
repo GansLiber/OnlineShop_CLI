@@ -6,7 +6,7 @@
     <div class='menu'>
       <ul v-if='isLoggedIn'>
         <p class='userName'>Пользователь: {{ currentUser.fio }}</p>
-        <router-link to='/catalog'>Каталог товаров</router-link>
+        <router-link to='/globFeed'>Каталог товаров</router-link>
         <router-link to='/basket'>Корзина</router-link>
         <router-link to='/order'>Оформленные заказы</router-link>
         <a @click='loginExit'>Выход</a>
