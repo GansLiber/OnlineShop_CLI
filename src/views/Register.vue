@@ -1,38 +1,44 @@
 <template class='main'>
   <div class='main'>
-    <div>
+    <div class='register-container'>
       <h2>Регистрация</h2>
       <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
-      <form @submit.prevent='onSubmit'>
-        <label for='name'>Ник</label>
-        <input v-model='fio' type='text' name='name' id='name'>
-        <label for='password'>Пароль</label>
-        <input v-model='password' type='password' name='password' id='password'>
-        <label for='email'>Почта</label>
-        <input v-model='email' type='email' name='email' id='email'>
-        <input :disabled='isSubmitting' type='submit' class='btn' value='Зарегистрироваться'>
+      <form @submit.prevent='onSubmit' class='register-form'>
+        <div class='form-input-group'>
+          <label for='fio'>Имя</label>
+          <input v-model='fio' type='text' name='fio' id='name' class='input-field'>
+        </div>
+        <div class='form-input-group'>
+          <label for='email'>Почта</label>
+          <input v-model='email' type='email' name='email' id='email' class='input-field'>
+        </div>
+        <div class='form-input-group'>
+          <label for='password'>Пароль</label>
+          <input v-model='password' type='password' name='password' id='password' class='input-field'>
+        </div>
+        <MyButton :disabled='isSubmitting' type='submit'>Зарегистрироваться</MyButton>
       </form>
-      <p>
-        <router-link to='/login'>Уже есть аккаунт?</router-link>
+      <p class='login-link'>
+        <router-link to='/login'>Уже есть аккаунт? Войти</router-link>
       </p>
     </div>
   </div>
 </template>
-
 <script>
 import TwValidationErrors from '@/components/ValidationErrors'
+import MyButton from '@/components/UI/MyButton'
 
 export default {
   name: 'TwRegister',
   components: {
+    MyButton,
     TwValidationErrors
   },
   data() {
     return {
-      email: '',
-      password: '',
       fio: '',
-      token: ''
+      email: '',
+      password: ''
     }
   },
   methods: {
@@ -44,10 +50,9 @@ export default {
         password: this.password
       })
         .then(credentials => {
-          console.log('успешно зарегестрированный пользователь', credentials)
+          console.log('успешно зарегистрированный пользователь', credentials)
           this.$router.push({name: 'globFeed'})
         })
-      // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его
     }
   },
   computed: {
@@ -60,7 +65,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .main {
   display: flex;
@@ -68,36 +72,60 @@ export default {
   height: 100%;
 }
 
-form {
-  display: inline-block;
-}
-
-form > input, label {
-  display: grid;
-  margin: 5px;
-  padding: 3px;
-}
-
-.btn {
-  margin-top: 14px;
+h2 {
   position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  vertical-align: middle;
-  text-decoration: none;
-  font-family: inherit;
-  color: #673817;
-  text-transform: uppercase;
-  padding: 0.25em 0.55em;
-  background: #fff0f0;
-  border: 1px solid #b18597;
-  transition: transform 0.15s;
-  transform-style: preserve-3d;
+  margin-right: 38px;
+  margin-bottom: 20px;
 }
 
-.btn:hover {
-  color: #0c1f1f;
-  background: #eae0e0 1px;
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
 }
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-input-group > label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FAFAFA;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login-link {
+  margin-right: 19px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+}
+
 </style>

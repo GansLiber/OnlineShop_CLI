@@ -1,28 +1,33 @@
 <template class='main'>
   <div class='main'>
-    <div>
+    <div class='login-container'>
       <h2>Авторизация</h2>
       <TwValidationErrors v-if='validationErrors' :validation-errors='validationErrors' />
-      <form @submit.prevent='onSubmit'>
-        <label for='email'>Почта</label>
-        <input v-model='email' type='email' name='email' id='email'>
-        <label for='password'>Пароль</label>
-        <input v-model='password' type='password' name='password' id='password'>
-        <input :disabled='isSubmitting' type='submit' class='btn' value='Войти'>
+      <form @submit.prevent='onSubmit' class='login-form'>
+        <div class='form-input-group'>
+          <label for='email'>Почта</label>
+          <input v-model='email' type='email' name='email' id='email' class='input-field'>
+        </div>
+        <div class='form-input-group'>
+          <label for='password'>Пароль</label>
+          <input v-model='password' type='password' name='password' id='password' class='input-field'>
+        </div>
+        <MyButton :disabled='isSubmitting' type='submit'>Войти</MyButton>
       </form>
-      <p>
+      <div class='register-link'>
         <router-link to='/register'>Хотите зарегистрироваться?</router-link>
-      </p>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
 import TwValidationErrors from '@/components/ValidationErrors'
+import MyButton from '@/components/UI/MyButton'
 
 export default {
   name: 'TwLogin',
   components: {
+    MyButton,
     TwValidationErrors
   },
   data() {
@@ -42,7 +47,6 @@ export default {
           console.log('успешно вошедший пользователь', credentials)
           this.$router.push({name: 'globFeed'})
         })
-      // получается вызов мутации из локального модуля стейта запускает процесс изменения свойства, которое возвращается вычисляемым свойством, которое берет его опять же из локального стейта(по совместительству модуля) и меняет его
     }
   },
   computed: {
@@ -55,7 +59,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .main {
   display: flex;
@@ -63,36 +66,59 @@ export default {
   height: 100%;
 }
 
-form {
-  display: inline-block;
-}
-
-form > input, label {
-  display: grid;
-  margin: 5px;
-  padding: 3px;
-}
-
-.btn {
-  margin-top: 14px;
+h2 {
   position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  vertical-align: middle;
-  text-decoration: none;
-  font-family: inherit;
-  color: #673817;
-  text-transform: uppercase;
-  padding: 0.25em 0.55em;
-  background: #fff0f0;
-  border: 1px solid #b18597;
-  transition: transform 0.15s;
-  transform-style: preserve-3d;
+  margin-right: 38px;
+  margin-bottom: 20px;
 }
 
-.btn:hover {
-  color: #0c1f1f;
-  background: #eae0e0 1px;
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-input-group > label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FAFAFA;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.register-link {
+  margin-right: 10px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
 }
 </style>

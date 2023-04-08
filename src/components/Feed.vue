@@ -7,7 +7,7 @@
         <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
         <div class='tw-feed-item-description'>{{ article.description }}</div>
         <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
-        <button class='tw-feed-add-to-cart-btn' @click='addToCart(article)'>Добавить в корзину</button>
+        <MyButton v-if='isLoggedIn' @click='addToCart(article)'>Добавить в корзину</MyButton>
       </div>
     </div>
   </div>
@@ -16,8 +16,12 @@
 <script>
 import getFeed from '@/store/modules/feed'
 import {mapState} from 'vuex'
+import MyButton from '@/components/UI/MyButton'
 
 export default {
+  components: {
+    MyButton
+  },
   name: 'TwFeed',
   props: {
     apiUrl: {
@@ -29,7 +33,8 @@ export default {
     ...mapState({
       isLoading: state => state.feed.isLoading,
       feed: state => state.feed.data,
-      error: state => state.feed.error
+      error: state => state.feed.error,
+      isLoggedIn: state => state.auth.isLoggedIn
     })
   },
   methods: {
@@ -78,8 +83,6 @@ export default {
 }
 
 .tw-feed-item-description {
-  height: 80px;
-  overflow: hidden;
   margin: 0;
   margin-bottom: 10px;
 }
@@ -87,20 +90,5 @@ export default {
 .tw-feed-item-price {
   margin: 0;
   font-weight: bold;
-}
-
-.tw-feed-add-to-cart-btn {
-  background-color: #007aff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.tw-feed-add-to-cart-btn:hover {
-  background-color: #0057b3;
 }
 </style>
