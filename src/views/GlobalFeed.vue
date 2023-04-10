@@ -1,11 +1,15 @@
 <template>
   <div class='home'>
-    <div>
-      <h3>Просто купить - лучший выбор на рынке</h3>
+    <div class='banner'>
+      <img src='#' alt='Просто купить'>
+      <div class='banner-text'>
+        <h3>Просто купить - лучший выбор на рынке</h3>
+      </div>
     </div>
     <TwFeed :api-url='apiUrl'></TwFeed>
   </div>
 </template>
+
 
 <script>
 // @ is an alias to /src
@@ -28,7 +32,43 @@ export default {
   align-items: center;
 }
 
-h3 {
-  font-size: 3em;
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #98430b;
+}
+
+.banner-text h3 {
+  font-size: 3rem;
+  margin: 0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 </style>

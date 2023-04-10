@@ -2,25 +2,37 @@
   <div class='tw-feed-container'>
     <div v-if='isLoading' class='tw-feed-loading'>Загрузка...</div>
     <div v-if='error' class='tw-feed-error'>Ошибка...</div>
-    <div v-if='feed' class='tw-feed-list'>
-      <div v-for='(article, index) in feed.data' :key='index' class='tw-feed-item'>
-        <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
-        <div class='tw-feed-item-description'>{{ article.description }}</div>
-        <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
-        <MyButton v-if='isLoggedIn' @click='addToCart(article)'>Добавить в корзину</MyButton>
+    <div v-if='feed' class='tw-feed-list-container'>
+      <div class='tw-feed-list'>
+        <div v-for='(article, index) in feed.data' :key='index' class='tw-feed-item'>
+          <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
+          <div class='tw-feed-item-description'>{{ article.description }}</div>
+          <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
+          <MyButton v-if='isLoggedIn' @click='addToCart(article)'>Добавить в корзину</MyButton>
+        </div>
       </div>
+      <TwPagination
+        :total='feed.data.length'
+        :limit='limit'
+        :currentPage='currentPage'
+      ></TwPagination>
     </div>
   </div>
 </template>
 
 <script>
-import getFeed from '@/store/modules/feed'
 import {mapState} from 'vuex'
 import MyButton from '@/components/UI/MyButton'
+import TwPagination from '@/components/Pagination'
+import {limit} from '@/helpers/vars'
+import qs from 'query-string'
+
+const {parse: parseUrl, stringify} = qs
 
 export default {
   components: {
-    MyButton
+    MyButton,
+    TwPagination
   },
   name: 'TwFeed',
   props: {
@@ -29,21 +41,51 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      limit,
+      url: null
+    }
+  },
   computed: {
     ...mapState({
       isLoading: state => state.feed.isLoading,
       feed: state => state.feed.data,
       error: state => state.feed.error,
       isLoggedIn: state => state.auth.isLoggedIn
-    })
+    }),
+    currentPage() {
+      console.log(this.$route)
+      return Number(this.$route.query.page || '1')
+    },
+    offset() {
+      return this.currentPage * limit - limit
+    }
   },
   methods: {
     addToCart(article) {
       // Добавить товар в корзину
+    },
+    fetchFeed() {
+      const PerParsedUrl = this.apiUrl
+      const stringifiedParams = stringify({
+        limit,
+        offset: this.offset,
+        ...PerParsedUrl.query
+      })
+      const apiUrlParams = `${PerParsedUrl}?${stringifiedParams}`
+      console.log('pp', this.apiUrl)
+      this.$store.dispatch('getFeed', {apiUrl: apiUrlParams})
+    }
+  },
+  watch: {
+    currentPage() {
+      console.log(this.currentPage, 'changed')
+      this.fetchFeed()
     }
   },
   mounted() {
-    this.$store.dispatch('getFeed', {apiUrl: this.apiUrl})
+    this.fetchFeed()
   }
 }
 </script>
@@ -60,10 +102,18 @@ export default {
   margin: 20px 0;
 }
 
+.tw-feed-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .tw-feed-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 80em;
+  flex: 1;
 }
 
 .tw-feed-item {
@@ -85,6 +135,7 @@ export default {
 .tw-feed-item-description {
   margin: 0;
   margin-bottom: 10px;
+
 }
 
 .tw-feed-item-price {
