@@ -3,7 +3,7 @@
     <div class='banner'>
       <img src='#' alt='Просто купить'>
       <div class='banner-text'>
-        <h3>Просто купить - лучший выбор на рынке</h3>
+        <h3>Просто купить - ваш лучший спутник в путешествии по онлайн шопингу!</h3>
       </div>
     </div>
     <TwFeed :api-url='apiUrl'></TwFeed>

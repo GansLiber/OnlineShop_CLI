@@ -1,6 +1,6 @@
 <template>
   <div class='tw-feed-container'>
-    <div v-if='isLoading' class='tw-feed-loading'>Загрузка...</div>
+    <TwLoader v-if='isLoading' class='tw-feed-loading'></TwLoader>
     <div v-if='error' class='tw-feed-error'>Ошибка...</div>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
@@ -25,14 +25,14 @@ import {mapState} from 'vuex'
 import MyButton from '@/components/UI/MyButton'
 import TwPagination from '@/components/Pagination'
 import {limit} from '@/helpers/vars'
-import qs from 'query-string'
+import TwLoader from '@/components/UI/Loader'
 
-const {parse: parseUrl, stringify} = qs
 
 export default {
   components: {
     MyButton,
-    TwPagination
+    TwPagination,
+    TwLoader
   },
   name: 'TwFeed',
   props: {
