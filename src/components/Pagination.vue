@@ -6,7 +6,7 @@
       </li>
     </ul>
     <div class='items'>
-      <slot :items='paginatedItems'>{{ paginatedItems }}</slot>
+   
     </div>
   </div>
 </template>
@@ -84,6 +84,7 @@ a {
   border-radius: 5px;
   text-decoration: none;
   transition: all 0.3s ease;
+  cursor: default;
 }
 
 a:hover {
@@ -93,6 +94,7 @@ a:hover {
 .active a {
   color: #fff;
   background-color: #333;
+
 }
 
 .items {

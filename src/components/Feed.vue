@@ -54,38 +54,18 @@ export default {
       feed: state => state.feed.data,
       error: state => state.feed.error,
       isLoggedIn: state => state.auth.isLoggedIn
-    }),
-    currentPage() {
-      console.log(this.$route)
-      return Number(this.$route.query.page || '1')
-    },
-    offset() {
-      return this.currentPage * limit - limit
-    }
+    })
   },
   methods: {
     addToCart(article) {
       // Добавить товар в корзину
     },
     fetchFeed() {
-      const PerParsedUrl = this.apiUrl
-      const stringifiedParams = stringify({
-        limit,
-        offset: this.offset,
-        ...PerParsedUrl.query
-      })
-      const apiUrlParams = `${PerParsedUrl}?${stringifiedParams}`
       console.log('pp', this.apiUrl)
-      this.$store.dispatch('getFeed', {apiUrl: apiUrlParams})
+      this.$store.dispatch('getFeed', {apiUrl: this.apiUrl})
     },
     handlePageChanged(paginatedItems) {
       this.paginatedItems = paginatedItems
-    }
-  },
-  watch: {
-    currentPage() {
-      console.log(this.currentPage, 'changed')
-      this.fetchFeed()
     }
   },
   mounted() {
