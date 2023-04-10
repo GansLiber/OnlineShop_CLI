@@ -4,7 +4,7 @@
     <div v-if='error' class='tw-feed-error'>Ошибка...</div>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
-        <div v-for='(article, index) in feed.data' :key='index' class='tw-feed-item'>
+        <div v-for='(article, index) in paginatedItems' :key='index' class='tw-feed-item'>
           <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
           <div class='tw-feed-item-description'>{{ article.description }}</div>
           <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
@@ -12,9 +12,9 @@
         </div>
       </div>
       <TwPagination
-        :total='feed.data.length'
-        :limit='limit'
-        :currentPage='currentPage'
+        :items='feed.data'
+        :per-page='9'
+        @page-changed='handlePageChanged'
       ></TwPagination>
     </div>
   </div>
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       limit,
-      url: null
+      url: null,
+      paginatedItems: []
     }
   },
   computed: {
@@ -76,6 +77,9 @@ export default {
       const apiUrlParams = `${PerParsedUrl}?${stringifiedParams}`
       console.log('pp', this.apiUrl)
       this.$store.dispatch('getFeed', {apiUrl: apiUrlParams})
+    },
+    handlePageChanged(paginatedItems) {
+      this.paginatedItems = paginatedItems
     }
   },
   watch: {

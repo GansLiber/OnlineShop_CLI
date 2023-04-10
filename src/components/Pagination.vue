@@ -1,55 +1,79 @@
 <template>
-  <ul>
-    <li
-      v-for='page in pages'
-      :key='page'
-      :class='{active: currentPage===page}'
-    >
-      <router-link :to='{query:{page:page} }'>
-        {{ page }}
-      </router-link>
-    </li>
-  </ul>
+  <div class='pagination'>
+    <ul>
+      <li v-for='(page, index) in pages' :key='index' :class='{ active: currentPage === page }'>
+        <a @click.prevent='setCurrentPage(page)'>{{ page }}</a>
+      </li>
+    </ul>
+    <div class='items'>
+      <slot :items='paginatedItems'>{{ paginatedItems }}</slot>
+    </div>
+  </div>
 </template>
-
 <script>
-import {range} from '@/helpers/utils'
-
 export default {
   name: 'TwPagination',
   props: {
-    total: {
-      type: Number,
+    items: {
+      type: Array,
       required: true
     },
-    limit: {
-      type: Number,
-      required: true
-    },
-    currentPage: {
+    perPage: {
       type: Number,
       required: true
     }
   },
-  computed: {
-    pages() {
-      const pagesCount = Math.ceil(this.total / this.limit)
-      return range(1, pagesCount)
+  data() {
+    return {
+      currentPage: 1
     }
+  },
+  computed: {
+    pageCount() {
+      return Math.ceil(this.items.length / this.perPage)
+    },
+    pages() {
+      const range = []
+      for (let i = 1; i <= this.pageCount; i++) {
+        range.push(i)
+      }
+      console.log(range)
+      return range
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage
+      const end = start + this.perPage
+      return this.items.slice(start, end)
+    }
+  },
+  methods: {
+    setCurrentPage(page) {
+      this.currentPage = page
+      this.$emit('page-changed', this.paginatedItems)
+    }
+  },
+  mounted() {
+    this.setCurrentPage(1)
   }
 }
 </script>
 <style scoped>
+.pagination {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 ul {
   list-style: none;
   display: flex;
-  justify-content: center;
   margin: 0;
   padding: 0;
 }
 
 li {
-  margin: 0 5px;
+  margin: 0 10px;
 }
 
 a {
@@ -70,8 +94,8 @@ a:hover {
   color: #fff;
   background-color: #333;
 }
-</style>
 
-<style scoped>
-
+.items {
+  margin-top: 20px;
+}
 </style>
