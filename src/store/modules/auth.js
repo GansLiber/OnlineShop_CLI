@@ -1,6 +1,5 @@
 import authApi from '@/api/auth'
 import {setItem} from '@/helpers/persistanceStorage'
-import login from '@/views/Login'
 
 const state = {
   isLoading: false,

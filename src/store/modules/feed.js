@@ -1,4 +1,6 @@
 import feedApi from '@/api/feed'
+import axios from 'axios'
+import currentUser from '@/store/modules/auth'
 
 const state = {
   data: null,
@@ -24,10 +26,13 @@ const actions = {
   getFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('getFeedStart')
+      const token = currentUser.state.currentUser.token
+      console.log('eeee', token)
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
       feedApi.getFeed(apiUrl).then(response => {
         context.commit('getFeedSuccess', response.data)
         resolve(response.data)
-        console.log('gg', response.data.data)
       })
         .catch(() => {
           context.commit('getFeedFailure')

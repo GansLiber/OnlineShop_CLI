@@ -3,10 +3,13 @@
     <div class='banner'>
       <img src='#' alt='Просто купить'>
       <div class='banner-text'>
-        <h3>Просто купить - ваш лучший спутник в путешествии по онлайн шопингу!</h3>
+        <h3>корзина</h3>
       </div>
     </div>
-    <TwFeed :api-url='apiUrl'></TwFeed>
+    <TwFeed
+      :api-url='apiUrl'
+      :type-par='typeFeed'
+    ></TwFeed>
   </div>
 </template>
 
@@ -16,11 +19,12 @@
 import TwFeed from '@/components/Feed'
 
 export default {
-  name: 'TwGlobalFeed',
+  name: 'TwYourFeed',
   components: {TwFeed},
   data() {
     return {
-      apiUrl: '/products'
+      apiUrl: '/cart',
+      typeFeed: 'myFeed'
     }
   }
 }

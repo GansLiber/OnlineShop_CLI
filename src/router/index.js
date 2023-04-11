@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Register from '@/views/Register'
 import Login from '@/views/Login'
 import GlobalFeed from '@/views/GlobalFeed'
+import YourFeed from '@/views/YourFeed'
 
 
 const routes = [
@@ -21,9 +22,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/basket',
-    name: 'basket',
-    component: GlobalFeed
+    path: '/yourFeed',
+    name: 'TwYourFeed',
+    component: YourFeed
   },
   {
     path: '/order',

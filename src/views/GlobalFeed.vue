@@ -6,7 +6,10 @@
         <h3>Просто купить - ваш лучший спутник в путешествии по онлайн шопингу!</h3>
       </div>
     </div>
-    <TwFeed :api-url='apiUrl'></TwFeed>
+    <TwFeed
+      :api-url='apiUrl'
+      :type-par='typeFeed'
+    ></TwFeed>
   </div>
 </template>
 
@@ -20,7 +23,8 @@ export default {
   components: {TwFeed},
   data() {
     return {
-      apiUrl: '/products'
+      apiUrl: '/products',
+      typeFeed: 'globFeed'
     }
   }
 }

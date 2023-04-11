@@ -5,13 +5,26 @@
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
         <div v-for='(article, index) in paginatedItems' :key='index' class='tw-feed-item'>
+          <div v-if='isLoggedIn && typePar==="myFeed"' class='close-button'>
+            <span></span>
+            <span></span>
+          </div>
+
           <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
           <div class='tw-feed-item-description'>{{ article.description }}</div>
           <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
           <MyButton
-            v-if='isLoggedIn'
+            v-if='isLoggedIn && typePar==="globFeed"'
             @click='addToCart(article, index)'>Добавить в корзину
           </MyButton>
+          <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
+            <MyButton
+              @click='addToCart(article, index)'>+
+            </MyButton>
+            <MyButton
+              @click='addToCart(article, index)'>-
+            </MyButton>
+          </div>
         </div>
       </div>
       <TwPagination
@@ -42,6 +55,10 @@ export default {
   name: 'TwFeed',
   props: {
     apiUrl: {
+      type: String,
+      required: true
+    },
+    typePar: {
       type: String,
       required: true
     }
@@ -131,5 +148,44 @@ export default {
 .tw-feed-item-price {
   margin: 0;
   font-weight: bold;
+}
+
+.more-sess > * {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.close-button {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  margin-right: 0px;
+}
+
+.close-button span {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  margin-top: -1px;
+  background-color: #000;
+}
+
+.close-button span:first-child {
+  transform: rotate(45deg);
+}
+
+.close-button span:last-child {
+  transform: rotate(-45deg);
+}
+
+
+.gg {
+  margin-right: 10px;
+  background-color: #b40a0a;
+  border-radius: 100px;
+  height: 20px;
 }
 </style>
