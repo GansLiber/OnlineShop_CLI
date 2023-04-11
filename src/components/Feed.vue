@@ -18,6 +18,7 @@
             @click='addToCart(article, index)'>Добавить в корзину
           </MyButton>
           <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
+            <span>Количество:</span>
             <MyButton
               @click='addToCart(article, index)'>+
             </MyButton>
@@ -79,8 +80,9 @@ export default {
     })
   },
   methods: {
-    addToCart(article, index) {
-      console.log('bb', article, index)
+    addToCart(article) {
+      console.log(`${this.apiUrl}/${article.id}`)
+      this.$store.dispatch('getYourFeed', {apiUrl: `/cart/${article.id}`})
     },
     fetchFeed() {
       console.log('pp', this.apiUrl)
