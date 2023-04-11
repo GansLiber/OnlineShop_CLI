@@ -1,14 +1,17 @@
 <template>
   <div class='tw-feed-container'>
     <TwLoader v-if='isLoading' class='tw-feed-loading'></TwLoader>
-    <div v-if='error' class='tw-feed-error'>Ошибка...</div>
+    <TwErrorMessage v-if='error'></TwErrorMessage>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
         <div v-for='(article, index) in paginatedItems' :key='index' class='tw-feed-item'>
           <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
           <div class='tw-feed-item-description'>{{ article.description }}</div>
           <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
-          <MyButton v-if='isLoggedIn' @click='addToCart(article)'>Добавить в корзину</MyButton>
+          <MyButton
+            v-if='isLoggedIn'
+            @click='addToCart(article, index)'>Добавить в корзину
+          </MyButton>
         </div>
       </div>
       <TwPagination
@@ -26,13 +29,15 @@ import MyButton from '@/components/UI/MyButton'
 import TwPagination from '@/components/Pagination'
 import {limit} from '@/helpers/vars'
 import TwLoader from '@/components/UI/Loader'
+import TwErrorMessage from '@/components/ErrorMessage'
 
 
 export default {
   components: {
     MyButton,
     TwPagination,
-    TwLoader
+    TwLoader,
+    TwErrorMessage
   },
   name: 'TwFeed',
   props: {
@@ -57,8 +62,8 @@ export default {
     })
   },
   methods: {
-    addToCart(article) {
-      // Добавить товар в корзину
+    addToCart(article, index) {
+      console.log('bb', article, index)
     },
     fetchFeed() {
       console.log('pp', this.apiUrl)
@@ -117,9 +122,10 @@ export default {
 }
 
 .tw-feed-item-description {
+  height: 80px;
+  overflow: hidden;
   margin: 0;
   margin-bottom: 10px;
-
 }
 
 .tw-feed-item-price {
