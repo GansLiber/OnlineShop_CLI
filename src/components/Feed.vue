@@ -4,8 +4,17 @@
     <TwErrorMessage v-if='error'></TwErrorMessage>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
-        <div v-for='(article, index) in paginatedItems' :key='index' class='tw-feed-item'>
-          <div v-if='isLoggedIn && typePar==="myFeed"' class='close-button'>
+        <div
+          v-for='(article, index) in paginatedItems'
+          :key='index'
+          class='tw-feed-item'
+          @click='check'
+        >
+          <div
+            v-if='isLoggedIn && typePar==="myFeed"'
+            class='close-button'
+            @click='delFeed(article)'
+          >
             <span></span>
             <span></span>
           </div>
@@ -18,17 +27,18 @@
             @click='addToCart(article, index)'>Добавить в корзину
           </MyButton>
           <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
-            <span>Количество:</span>
             <MyButton
               @click='addToCart(article, index)'>+
             </MyButton>
             <MyButton
               @click='addToCart(article, index)'>-
             </MyButton>
+            <span>Количество:</span>
           </div>
         </div>
       </div>
       <TwPagination
+        v-if='paginatedItems'
         :items='feed.data'
         :per-page='9'
         @page-changed='handlePageChanged'
@@ -90,6 +100,23 @@ export default {
     },
     handlePageChanged(paginatedItems) {
       this.paginatedItems = paginatedItems
+    },
+    check() {
+      console.log('what it', this.feed.data, this.paginatedItems)
+    },
+    delFeed(article) {
+
+      console.log('gabella', article.id)
+      console.log('gabella', this.feed.data)
+      this.$store.dispatch('delYourFeed', {
+        apiUrl: `/cart/${article.id}`
+      }).then(() => {
+        this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
+
+        this.feed.data = this.feed.data.filter(item => item.id !== article.id)
+
+      })
+
     }
   },
   mounted() {

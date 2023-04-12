@@ -4,6 +4,11 @@ const addYourFeed = apiAddFeed => {
   return axios.post(apiAddFeed)
 }
 
+const delYourFeed = apiDelFeed => {
+  return axios.delete(apiDelFeed)
+}
+
 export default {
-  addYourFeed
+  addYourFeed,
+  delYourFeed
 }

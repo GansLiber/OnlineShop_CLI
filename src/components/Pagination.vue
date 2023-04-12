@@ -37,7 +37,6 @@ export default {
       for (let i = 1; i <= this.pageCount; i++) {
         range.push(i)
       }
-      console.log(range)
       return range
     },
     paginatedItems() {

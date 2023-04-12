@@ -50,7 +50,6 @@ export default {
         password: this.password
       })
         .then(credentials => {
-          console.log('успешно зарегистрированный пользователь', credentials)
           this.$router.push({name: 'globFeed'})
         })
     }

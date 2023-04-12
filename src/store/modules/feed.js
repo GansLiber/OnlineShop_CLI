@@ -1,5 +1,6 @@
 import feedApi from '@/api/feed'
 import addYourFeed from '@/api/yourFeed'
+import delYourFeed from '@/api/yourFeed'
 import axios from 'axios'
 import currentUser from '@/store/modules/auth'
 
@@ -21,6 +22,7 @@ const mutations = {
   getFeedFailure(state) {
     state.isLoading = false
   },
+
   getYourFeedStart(state) {
     state.isLoading = true
   },
@@ -29,7 +31,18 @@ const mutations = {
   },
   getYourFeedFailure(state) {
     state.isLoading = false
+  },
+
+  delYourFeedStart(state) {
+    state.isLoading = true
+  },
+  delYourFeedSuccess(state) {
+    state.isLoading = false
+  },
+  delYourFeedFailure(state) {
+    state.isLoading = false
   }
+
 }
 
 const actions = {
@@ -51,17 +64,30 @@ const actions = {
     return new Promise(resolve => {
       context.commit('getYourFeedStart')
       const token = currentUser.state.currentUser.token
-      console.log('eeee', context, apiUrl)
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
 
 
       addYourFeed.addYourFeed(apiUrl).then(gg => {
         context.commit('getYourFeedSuccess')
-        console.log('L', gg)
         resolve(gg)
       })
         .catch(() => {
           context.commit('getYourFeedFailure')
+        })
+    })
+  },
+  delYourFeed(context, {apiUrl, delId}) {
+    return new Promise(resolve => {
+      context.commit('delYourFeedStart')
+      const token = currentUser.state.currentUser.token
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+      delYourFeed.delYourFeed(apiUrl).then(gg => {
+        context.commit('delYourFeedSuccess')
+        resolve(gg)
+      })
+        .catch(() => {
+          context.commit('delYourFeedFailure')
         })
     })
   }

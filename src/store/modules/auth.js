@@ -54,15 +54,12 @@ const actions = {
     context.commit('registerStart')
     return new Promise(resolve => {
       authApi.register(credentials).then(response => {
-        // console.log(response.data.data.user_token) //токен пользователя
         credentials.token = response.data.data.user_token
-        console.log('obj T', context)
         context.commit('registerSuccess', credentials)
         setItem('accessToken', response.data.data.user_token)
         resolve(response)
       })
         .catch(result => {
-          console.log('gg ', result.response.data.error.errors)
           context.commit('registerFailure', result.response.data.error.errors)
         })
     })
@@ -72,7 +69,6 @@ const actions = {
     return new Promise(resolve => {
       authApi.login(credentials).then(response => {
         context.commit('loginSuccess', credentials)
-        console.log('ono', credentials)
         resolve(response)
       })
         .catch(result => {
@@ -88,7 +84,6 @@ const actions = {
     context.commit('loginExitStart')
     authApi.logout().then(response => {
       context.commit('loginExitSuccess')
-      console.log(response)
     })
   }
 }
