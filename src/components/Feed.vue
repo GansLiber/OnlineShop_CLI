@@ -2,13 +2,18 @@
   <div class='tw-feed-container'>
     <TwLoader v-if='isLoading' class='tw-feed-loading'></TwLoader>
     <TwErrorMessage v-if='error'></TwErrorMessage>
+    <my-button
+      v-if='isLoggedIn && typePar==="myFeed" && feed'
+      class='orderBtn'
+      @click='getOrder'
+    >Заказать
+    </my-button>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
         <div
           v-for='(article, index) in paginatedItems'
           :key='index'
           class='tw-feed-item'
-          @click='check'
         >
           <div
             v-if='isLoggedIn && typePar==="myFeed"'
@@ -101,22 +106,20 @@ export default {
     handlePageChanged(paginatedItems) {
       this.paginatedItems = paginatedItems
     },
-    check() {
-      console.log('what it', this.feed.data, this.paginatedItems)
-    },
     delFeed(article) {
-
-      console.log('gabella', article.id)
-      console.log('gabella', this.feed.data)
       this.$store.dispatch('delYourFeed', {
         apiUrl: `/cart/${article.id}`
       }).then(() => {
-        this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
-
-        this.feed.data = this.feed.data.filter(item => item.id !== article.id)
-
+        this.clearInterface(article)
       })
-
+    },
+    clearInterface(article) {
+      this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
+      this.feed.data = this.feed.data.filter(item => item.id !== article.id)
+    },
+    getOrder(article) {
+      this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})
+      // доделать ордера
     }
   },
   mounted() {
@@ -210,6 +213,9 @@ export default {
   transform: rotate(-45deg);
 }
 
+.orderBtn {
+  font-size: 30px;
+}
 
 .gg {
   margin-right: 10px;

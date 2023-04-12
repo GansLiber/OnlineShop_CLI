@@ -3,6 +3,7 @@ import Register from '@/views/Register'
 import Login from '@/views/Login'
 import GlobalFeed from '@/views/GlobalFeed'
 import YourFeed from '@/views/YourFeed'
+import Ordered from '@/views/Ordered'
 
 
 const routes = [
@@ -27,9 +28,9 @@ const routes = [
     component: YourFeed
   },
   {
-    path: '/order',
-    name: 'order',
-    component: GlobalFeed
+    path: '/ordered',
+    name: 'ordered',
+    component: Ordered
   }
 ]
 

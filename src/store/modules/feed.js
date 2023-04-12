@@ -1,6 +1,7 @@
 import feedApi from '@/api/feed'
 import addYourFeed from '@/api/yourFeed'
 import delYourFeed from '@/api/yourFeed'
+import orderYourFeed from '@/api/yourFeed'
 import axios from 'axios'
 import currentUser from '@/store/modules/auth'
 
@@ -40,6 +41,16 @@ const mutations = {
     state.isLoading = false
   },
   delYourFeedFailure(state) {
+    state.isLoading = false
+  },
+
+  orderYourFeedStart(state) {
+    state.isLoading = true
+  },
+  orderYourFeedSuccess(state) {
+    state.isLoading = false
+  },
+  orderYourFeedFailure(state) {
     state.isLoading = false
   }
 
@@ -88,6 +99,22 @@ const actions = {
       })
         .catch(() => {
           context.commit('delYourFeedFailure')
+        })
+    })
+  },
+  orderYourFeed(context, {apiUrl}) {
+    return new Promise(resolve => {
+      context.commit('orderYourFeedStart')
+      const token = currentUser.state.currentUser.token
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+
+      orderYourFeed.orderYourFeed(apiUrl).then(gg => {
+        context.commit('orderYourFeedSuccess')
+        resolve(gg)
+      })
+        .catch(() => {
+          context.commit('orderYourFeedFailure')
         })
     })
   }
