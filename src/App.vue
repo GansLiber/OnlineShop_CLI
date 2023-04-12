@@ -16,6 +16,7 @@ export default {
     TwTopbar
   },
   mounted() {
+    this.$store.dispatch('loginAgain')
   }
 }
 </script>

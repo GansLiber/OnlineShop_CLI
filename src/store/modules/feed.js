@@ -49,6 +49,7 @@ const mutations = {
   },
   orderYourFeedSuccess(state) {
     state.isLoading = false
+    state.data = null
   },
   orderYourFeedFailure(state) {
     state.isLoading = false
@@ -87,7 +88,7 @@ const actions = {
         })
     })
   },
-  delYourFeed(context, {apiUrl, delId}) {
+  delYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('delYourFeedStart')
       const token = currentUser.state.currentUser.token
@@ -105,9 +106,9 @@ const actions = {
   orderYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('orderYourFeedStart')
+
       const token = currentUser.state.currentUser.token
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
-
 
       orderYourFeed.orderYourFeed(apiUrl).then(gg => {
         context.commit('orderYourFeedSuccess')

@@ -5,7 +5,7 @@
     <my-button
       v-if='isLoggedIn && typePar==="myFeed" && feed'
       class='orderBtn'
-      @click='getOrder'
+      @click='getOrder(paginatedItems)'
     >Заказать
     </my-button>
     <div v-if='feed' class='tw-feed-list-container'>
@@ -15,30 +15,39 @@
           :key='index'
           class='tw-feed-item'
         >
-          <div
-            v-if='isLoggedIn && typePar==="myFeed"'
-            class='close-button'
-            @click='delFeed(article)'
-          >
-            <span></span>
-            <span></span>
-          </div>
+          <div v-if='apiUrl!=="order"'>
+            <div
+              v-if='isLoggedIn && typePar==="myFeed"'
+              class='close-button'
+              @click='delFeed(article)'
+            >
+              <span></span>
+              <span></span>
+            </div>
 
-          <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
-          <div class='tw-feed-item-description'>{{ article.description }}</div>
-          <p class='tw-feed-item-price'>{{ article.price }} <span>шейкелей</span></p>
-          <MyButton
-            v-if='isLoggedIn && typePar==="globFeed"'
-            @click='addToCart(article, index)'>Добавить в корзину
-          </MyButton>
-          <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
+            <h3 class='tw-feed-item-title'>{{ article.name }}</h3>
+            <div class='tw-feed-item-description'>{{ article.description }}</div>
+            <div v-if='isLoggedIn && typePar==="order"' class='orderStaff'>
+              <h1>Заказано</h1>
+              <ul>Заказаны товары c id:
+                <li v-for='order in article.products'>{{ order }}</li>
+              </ul>
+            </div>
+            <p class='tw-feed-item-price'>{{ article.price }}{{ article.order_price }}<span v-if='typePar==="order"'> всего </span>
+              <span> шейкелей</span></p>
             <MyButton
-              @click='addToCart(article, index)'>+
+              v-if='isLoggedIn && typePar==="globFeed"'
+              @click='addToCart(article, index)'>Добавить в корзину
             </MyButton>
-            <MyButton
-              @click='addToCart(article, index)'>-
-            </MyButton>
-            <span>Количество:</span>
+            <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
+              <MyButton
+                @click='addToCart(article, index)'>+
+              </MyButton>
+              <MyButton
+                @click='addToCart(article, index)'>-
+              </MyButton>
+              <span>Количество:</span>
+            </div>
           </div>
         </div>
       </div>
@@ -119,7 +128,6 @@ export default {
     },
     getOrder(article) {
       this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})
-      // доделать ордера
     }
   },
   mounted() {
@@ -215,6 +223,11 @@ export default {
 
 .orderBtn {
   font-size: 30px;
+}
+
+.orderStaff {
+  position: relative;
+  margin-bottom: 90px;
 }
 
 .gg {

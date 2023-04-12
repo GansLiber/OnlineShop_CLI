@@ -3,7 +3,7 @@
     <div class='banner'>
       <img src='#' alt='Просто купить'>
       <div class='banner-text'>
-        <h3>корзина</h3>
+        <h3>Корзина</h3>
       </div>
     </div>
     <TwFeed
