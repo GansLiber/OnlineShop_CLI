@@ -11,7 +11,7 @@ const state = {
   error: null
 }
 
-const mutations = {
+const mutations = {//тут тоже мутации общие у двух функций важных - ошибка
   getFeedStart(state) {
     state.isLoading = true
     state.data = null

@@ -3,11 +3,12 @@
     <TwLoader v-if='isLoading' class='tw-feed-loading'></TwLoader>
     <TwErrorMessage v-if='error'></TwErrorMessage>
     <my-button
-      v-if='isLoggedIn && typePar==="myFeed" && feed'
+      v-if='isLoggedIn && typePar==="myFeed" && paginatedItems.length>0'
       class='orderBtn'
       @click='getOrder(paginatedItems)'
     >Заказать
     </my-button>
+    <div v-if='paginatedItems.length<1'><h2>Вы еще ничго не добавили в корзину</h2></div>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
         <div
@@ -17,7 +18,7 @@
         >
           <div v-if='apiUrl!=="order"'>
             <div
-              v-if='isLoggedIn && typePar==="myFeed"'
+              v-if='isLoggedIn && typePar==="myFeed" && feed'
               class='close-button'
               @click='delFeed(article)'
             >
