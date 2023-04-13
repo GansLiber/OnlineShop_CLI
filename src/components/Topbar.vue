@@ -39,6 +39,9 @@ export default {
       currentUser: state => state.auth.currentUser,
       isLoggedIn: state => state.auth.isLoggedIn
     })
+  },
+  mounted() {
+    console.log('topbar', this.currentUser)
   }
 }
 </script>
