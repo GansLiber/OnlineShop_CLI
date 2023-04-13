@@ -57,10 +57,13 @@ const mutations = {
 
 }
 
-const actions = {
+const actions = {// ВАЖНО!!! это один обработчик и для /product и для /cart по этому отправляю токен в хедере
   getFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('getFeedStart')
+      const token = currentUser.state.currentUser.token
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
       feedApi.getFeed(apiUrl).then(response => {
         context.commit('getFeedSuccess', response.data)
         resolve(response.data)
@@ -75,7 +78,7 @@ const actions = {
       context.commit('getYourFeedStart')
       const token = currentUser.state.currentUser.token
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
-      
+
       addYourFeed.addYourFeed(apiUrl).then(gg => {
         context.commit('getYourFeedSuccess')
         resolve(gg)
