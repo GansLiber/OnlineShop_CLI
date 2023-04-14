@@ -93,8 +93,9 @@ const actions = {// ВАЖНО!!! это один обработчик и для
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
 
       feedApi.getFeed(apiUrl).then(response => {
-        console.log('data', response.data)
+        console.log('data22', context)
         context.commit('getYourFeedSuccess', response.data)
+        console.log('dataAfter', response.data)
         resolve(response.data)
       })
         .catch(() => {
@@ -102,21 +103,21 @@ const actions = {// ВАЖНО!!! это один обработчик и для
         })
     })
   },
-  stackYourFeed(arr) {
+  stackYourFeed() {
     console.log('arr', state.data.data)
-    let result = state.data.data.reduce((acc, obj) => {
+    state.data.data = state.data.data.reduce((acc, obj) => {
       let found = acc.find(item => item.product_id === obj.product_id)
       if (found) {
         found.count++
       } else {
         acc.push({id: obj.id, product_id: obj.product_id, name: obj.name, description: obj.description, count: 1})
       }
-      console.log(acc)
+
       return acc
     }, [])
-    state.data.data = result
-    console.log('result', result)
+    console.log('resultStacked', state.data.data)
   },
+
   addYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('addYourFeedStart')

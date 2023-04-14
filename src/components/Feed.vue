@@ -15,7 +15,6 @@
           v-for='(article, index) in paginatedItems'
           :key='index'
           class='tw-feed-item'
-          @click='stackYourFeed'
         >
           <div v-if='apiUrl!=="order"'>
             <div
@@ -48,13 +47,13 @@
               <MyButton
                 @click='addToCart(article, index)'>-
               </MyButton>
-              <span>Количество:</span>
+              <span>Количество: {{ article.count }}</span>
             </div>
           </div>
         </div>
       </div>
       <TwPagination
-        v-if='paginatedItems'
+        v-if='paginatedItems && isLoadedFeed'
         :items='feed.data'
         :per-page='9'
         @page-changed='handlePageChanged'
@@ -94,7 +93,8 @@ export default {
     return {
       limit,
       url: null,
-      paginatedItems: []
+      paginatedItems: [],
+      isLoadedFeed: false
     }
   },
   computed: {
@@ -104,24 +104,34 @@ export default {
       error: state => state.feed.error,
       isLoggedIn: state => state.auth.isLoggedIn
     })
+
   },
   methods: {
     addToCart(article) {
-      console.log(`${this.apiUrl}/${article.id}`)
       this.$store.dispatch('addYourFeed', {apiUrl: `/cart/${article.id}`})
     },
     fetchFeed() {
-      console.log('pp', this.apiUrl)
       this.$store.dispatch('getFeed', {apiUrl: this.apiUrl})
+      this.isLoadedFeed = true
     },
+
+
     fetchYourFeed() {
-      console.log('pp', this.apiUrl)
       this.$store.dispatch('getYourFeed', {apiUrl: this.apiUrl})
+        .then(() => {
+          console.log('gabella1', this.feed)
+          this.stackYourFeed()
+          console.log('gabella2', this.feed)
+          this.isLoadedFeed = true
+        })
     },
     stackYourFeed() {
-      this.$store.dispatch('stackYourFeed', this.feed)
       console.log('feed', this.feed.data)
+      this.$store.dispatch('stackYourFeed', this.feed)
+      // console.log('feed', this.feed.data)
     },
+
+
     handlePageChanged(paginatedItems) {
       this.paginatedItems = paginatedItems
       console.log('paginatedItems', paginatedItems)
