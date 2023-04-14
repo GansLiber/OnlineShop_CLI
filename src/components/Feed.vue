@@ -15,6 +15,7 @@
           v-for='(article, index) in paginatedItems'
           :key='index'
           class='tw-feed-item'
+          @click='stackYourFeed'
         >
           <div v-if='apiUrl!=="order"'>
             <div
@@ -107,14 +108,23 @@ export default {
   methods: {
     addToCart(article) {
       console.log(`${this.apiUrl}/${article.id}`)
-      this.$store.dispatch('getYourFeed', {apiUrl: `/cart/${article.id}`})
+      this.$store.dispatch('addYourFeed', {apiUrl: `/cart/${article.id}`})
     },
     fetchFeed() {
       console.log('pp', this.apiUrl)
       this.$store.dispatch('getFeed', {apiUrl: this.apiUrl})
     },
+    fetchYourFeed() {
+      console.log('pp', this.apiUrl)
+      this.$store.dispatch('getYourFeed', {apiUrl: this.apiUrl})
+    },
+    stackYourFeed() {
+      this.$store.dispatch('stackYourFeed', this.feed)
+      console.log('feed', this.feed.data)
+    },
     handlePageChanged(paginatedItems) {
       this.paginatedItems = paginatedItems
+      console.log('paginatedItems', paginatedItems)
     },
     delFeed(article) {
       this.$store.dispatch('delYourFeed', {
@@ -127,12 +137,16 @@ export default {
       this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
       this.feed.data = this.feed.data.filter(item => item.id !== article.id)
     },
-    getOrder(article) {
+    getOrder() {
       this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})
     }
   },
   mounted() {
-    this.fetchFeed()
+    if (this.typePar === 'myFeed') {
+      this.fetchYourFeed()
+    } else {
+      this.fetchFeed()
+    }
   }
 }
 </script>

@@ -23,17 +23,29 @@ const mutations = {//тут тоже мутации общие у двух фу�
   getFeedFailure(state) {
     state.isLoading = false
   },
-
+// !!!
   getYourFeedStart(state) {
     state.isLoading = true
+    state.data = null
   },
-  getYourFeedSuccess(state) {
+  getYourFeedSuccess(state, payload) {
     state.isLoading = false
+    state.data = payload
   },
   getYourFeedFailure(state) {
     state.isLoading = false
   },
-
+// !!!
+  addYourFeedStart(state) {
+    state.isLoading = true
+  },
+  addYourFeedSuccess(state) {
+    state.isLoading = false
+  },
+  addYourFeedFailure(state) {
+    state.isLoading = false
+  },
+// !!!
   delYourFeedStart(state) {
     state.isLoading = true
   },
@@ -43,7 +55,7 @@ const mutations = {//тут тоже мутации общие у двух фу�
   delYourFeedFailure(state) {
     state.isLoading = false
   },
-
+// !!!
   orderYourFeedStart(state) {
     state.isLoading = true
   },
@@ -54,7 +66,7 @@ const mutations = {//тут тоже мутации общие у двух фу�
   orderYourFeedFailure(state) {
     state.isLoading = false
   }
-
+// !!!
 }
 
 const actions = {// ВАЖНО!!! это один обработчик и для /product и для /cart по этому отправляю токен в хедере
@@ -73,18 +85,50 @@ const actions = {// ВАЖНО!!! это один обработчик и для
         })
     })
   },
+  //это обработчик карзины, такой же как на главной
   getYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('getYourFeedStart')
       const token = currentUser.state.currentUser.token
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
 
-      addYourFeed.addYourFeed(apiUrl).then(gg => {
-        context.commit('getYourFeedSuccess')
-        resolve(gg)
+      feedApi.getFeed(apiUrl).then(response => {
+        console.log('data', response.data)
+        context.commit('getYourFeedSuccess', response.data)
+        resolve(response.data)
       })
         .catch(() => {
           context.commit('getYourFeedFailure')
+        })
+    })
+  },
+  stackYourFeed(arr) {
+    console.log('arr', state.data.data)
+    let result = state.data.data.reduce((acc, obj) => {
+      let found = acc.find(item => item.product_id === obj.product_id)
+      if (found) {
+        found.count++
+      } else {
+        acc.push({id: obj.id, product_id: obj.product_id, name: obj.name, description: obj.description, count: 1})
+      }
+      console.log(acc)
+      return acc
+    }, [])
+    state.data.data = result
+    console.log('result', result)
+  },
+  addYourFeed(context, {apiUrl}) {
+    return new Promise(resolve => {
+      context.commit('addYourFeedStart')
+      const token = currentUser.state.currentUser.token
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+      addYourFeed.addYourFeed(apiUrl).then(gg => {
+        context.commit('addYourFeedSuccess')
+        resolve(gg)
+      })
+        .catch(() => {
+          context.commit('addYourFeedFailure')
         })
     })
   },
