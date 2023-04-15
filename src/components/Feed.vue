@@ -42,7 +42,7 @@
             </MyButton>
             <div v-if='isLoggedIn && typePar==="myFeed"' class='more-sess'>
               <MyButton
-                @click='addToCart(article, index)'>+
+                @click='addToCartBasket(article, index)'>+
               </MyButton>
               <MyButton
                 @click='delFeed(article)'>-
@@ -111,6 +111,10 @@ export default {
     addToCart(article) {
       this.$store.dispatch('addYourFeed', {apiUrl: `/cart/${article.id}`})
     },
+    addToCartBasket(article) {
+      this.$store.dispatch('addYourFeed', {apiUrl: `/cart/${article.product_id}`})
+      article.count++
+    },
     fetchFeed() {
       this.$store.dispatch('getFeed', {apiUrl: this.apiUrl})
       this.isLoadedFeed = true
@@ -174,7 +178,7 @@ export default {
     clearInterface(article) {
       this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
       this.feed.data = this.feed.data.filter(item => item.id !== article.id)
-      this.delFeedData.delData.data = this.delFeedData.delData.data.filter(item => item.id !== article.id)
+      // this.delFeedData.delData.data = this.delFeedData.delData.data.filter(item => item.id !== article.id)
     },
     getOrder() {
       this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})
