@@ -1,7 +1,6 @@
 <template>
   <div class='home'>
     <div class='banner'>
-      <img src='#' alt='Просто купить'>
       <div class='banner-text'>
         <h3>Просто купить - ваш лучший спутник в путешествии по онлайн шопингу!</h3>
       </div>

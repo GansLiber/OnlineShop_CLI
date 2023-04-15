@@ -160,21 +160,6 @@ const actions = {
         })
     })
   },
-  delAllYourFeed(context, {apiUrl}) {
-    return new Promise(resolve => {
-      context.commit('delYourFeedStart')
-      const token = currentUser.state.currentUser.token
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
-
-      delYourFeed.delYourFeed(apiUrl).then(gg => {
-        context.commit('delYourFeedSuccess')
-        resolve(gg)
-      })
-        .catch(() => {
-          context.commit('delYourFeedFailure')
-        })
-    })
-  },
   orderYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('orderYourFeedStart')

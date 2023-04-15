@@ -3,7 +3,7 @@
     <TwLoader v-if='isLoading' class='tw-feed-loading'></TwLoader>
     <TwErrorMessage v-if='error'></TwErrorMessage>
     <my-button
-      v-if='isLoggedIn && typePar==="myFeed" && paginatedItems.length>0'
+      v-if='isLoggedIn && typePar==="myFeed" && paginatedItems.length>0 && feed'
       class='orderBtn'
       @click='getOrder(paginatedItems)'
     >Заказать

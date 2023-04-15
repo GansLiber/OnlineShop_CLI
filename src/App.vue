@@ -1,7 +1,6 @@
 <template>
   <TwTopbar />
   <div>
-    gg
   </div>
   <router-view />
 </template>
