@@ -101,6 +101,7 @@ export default {
     ...mapState({
       isLoading: state => state.feed.isLoading,
       feed: state => state.feed.data,
+      delFeedData: state => state.feed.delData,
       error: state => state.feed.error,
       isLoggedIn: state => state.auth.isLoggedIn
     })
@@ -119,8 +120,9 @@ export default {
     fetchYourFeed() {
       this.$store.dispatch('getYourFeed', {apiUrl: this.apiUrl})
         .then(() => {
-          console.log('gabella1', this.feed)
+
           this.stackYourFeed()
+          console.log('gabella1', this.delFeedData)
           console.log('gabella2', this.feed)
           this.isLoadedFeed = true
         })
@@ -137,6 +139,8 @@ export default {
       console.log('paginatedItems', paginatedItems)
     },
     delFeed(article) {
+      console.log('gg', this.delFeedData)
+      console.log('wp', this.feed)
       this.$store.dispatch('delYourFeed', {
         apiUrl: `/cart/${article.id}`
       }).then(() => {

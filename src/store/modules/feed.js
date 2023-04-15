@@ -7,6 +7,7 @@ import currentUser from '@/store/modules/auth'
 
 const state = {
   data: null,
+  delData: null,
   isLoading: false,
   error: null
 }
@@ -31,8 +32,17 @@ const mutations = {//тут тоже мутации общие у двух фу�
   getYourFeedSuccess(state, payload) {
     state.isLoading = false
     state.data = payload
+    state.delData = {...payload}
   },
   getYourFeedFailure(state) {
+    state.isLoading = false
+  },
+// !!!
+  stackYourFeedStart(state) {
+    state.isLoading = true
+    state.data = null
+  },
+  stackYourFeedSuccess(state) {
     state.isLoading = false
   },
 // !!!
@@ -69,7 +79,7 @@ const mutations = {//тут тоже мутации общие у двух фу�
 // !!!
 }
 
-const actions = {// ВАЖНО!!! это один обработчик и для /product и для /cart по этому отправляю токен в хедере
+const actions = {
   getFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('getFeedStart')
@@ -103,8 +113,9 @@ const actions = {// ВАЖНО!!! это один обработчик и для
         })
     })
   },
-  stackYourFeed() {
-    console.log('arr', state.data.data)
+  stackYourFeed(context) {
+    console.log('arryf', state.data)
+    // context.commit('stackYourFeedStart')
     state.data.data = state.data.data.reduce((acc, obj) => {
       let found = acc.find(item => item.product_id === obj.product_id)
       if (found) {
@@ -112,9 +123,9 @@ const actions = {// ВАЖНО!!! это один обработчик и для
       } else {
         acc.push({id: obj.id, product_id: obj.product_id, name: obj.name, description: obj.description, count: 1})
       }
-
       return acc
     }, [])
+    // context.commit('stackYourFeedSuccess')
     console.log('resultStacked', state.data.data)
   },
 
