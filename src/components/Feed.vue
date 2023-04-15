@@ -120,10 +120,7 @@ export default {
     fetchYourFeed() {
       this.$store.dispatch('getYourFeed', {apiUrl: this.apiUrl})
         .then(() => {
-
           this.stackYourFeed()
-          console.log('gabella1', this.delFeedData)
-          console.log('gabella2', this.feed)
           this.isLoadedFeed = true
         })
     },
@@ -142,22 +139,31 @@ export default {
       // console.log('gg', this.delFeedData)
       // console.log('wp', this.feed)
       // console.log('art', article)
-      this.$store.dispatch('delYourFeed', {
-        apiUrl: `/cart/${article.id}`
-      }).then(() => {
-        this.clearInterface(article)
-      })
+      for (let deleted of this.delFeedData.data) {
+        if (deleted.product_id === article.product_id) {
+          this.$store.dispatch('delYourFeed', {
+            apiUrl: `/cart/${deleted.id}`
+          }).then(() => {
+            article.count--
+            for (let deleted of this.delFeedData.data) {
+              if (deleted.product_id === article.product_id) {
+                this.delFeedData.data.splice(this.delFeedData.data.indexOf(deleted), 1)
+                break
+              }
+            }
+          })
+          break
+        }
+      }
     },
     delAll(article) {
       for (let deleted of this.delFeedData.data) {
-        // console.log('gg', deleted.product_id)
-        // console.log('wp', article.product_id)
         if (deleted.product_id === article.product_id) {
           console.log('wp', article.id)
           this.$store.dispatch('delYourFeed', {
             apiUrl: `/cart/${deleted.id}`
           }).then(() => {
-            // this.clearInterface(article)
+            this.clearInterface(article)
           })
         }
       }
