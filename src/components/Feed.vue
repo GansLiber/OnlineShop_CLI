@@ -20,7 +20,7 @@
             <div
               v-if='isLoggedIn && typePar==="myFeed" && feed'
               class='close-button'
-              @click='delFeed(article)'
+              @click='delAll(article)'
             >
               <span></span>
               <span></span>
@@ -45,7 +45,7 @@
                 @click='addToCart(article, index)'>+
               </MyButton>
               <MyButton
-                @click='addToCart(article, index)'>-
+                @click='delFeed(article)'>-
               </MyButton>
               <span>Количество: {{ article.count }}</span>
             </div>
@@ -139,17 +139,33 @@ export default {
       console.log('paginatedItems', paginatedItems)
     },
     delFeed(article) {
-      console.log('gg', this.delFeedData)
-      console.log('wp', this.feed)
+      // console.log('gg', this.delFeedData)
+      // console.log('wp', this.feed)
+      // console.log('art', article)
       this.$store.dispatch('delYourFeed', {
         apiUrl: `/cart/${article.id}`
       }).then(() => {
         this.clearInterface(article)
       })
     },
+    delAll(article) {
+      for (let deleted of this.delFeedData.data) {
+        // console.log('gg', deleted.product_id)
+        // console.log('wp', article.product_id)
+        if (deleted.product_id === article.product_id) {
+          console.log('wp', article.id)
+          this.$store.dispatch('delYourFeed', {
+            apiUrl: `/cart/${deleted.id}`
+          }).then(() => {
+            // this.clearInterface(article)
+          })
+        }
+      }
+    },
     clearInterface(article) {
       this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
       this.feed.data = this.feed.data.filter(item => item.id !== article.id)
+      this.delFeedData.delData = this.delFeedData.delData.filter(item => item.id !== article.id)
     },
     getOrder() {
       this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})

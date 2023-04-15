@@ -28,6 +28,7 @@ const mutations = {//тут тоже мутации общие у двух фу�
   getYourFeedStart(state) {
     state.isLoading = true
     state.data = null
+    state.delData = null
   },
   getYourFeedSuccess(state, payload) {
     state.isLoading = false
@@ -145,6 +146,21 @@ const actions = {
     })
   },
   delYourFeed(context, {apiUrl}) {
+    return new Promise(resolve => {
+      context.commit('delYourFeedStart')
+      const token = currentUser.state.currentUser.token
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+
+      delYourFeed.delYourFeed(apiUrl).then(gg => {
+        context.commit('delYourFeedSuccess')
+        resolve(gg)
+      })
+        .catch(() => {
+          context.commit('delYourFeedFailure')
+        })
+    })
+  },
+  delAllYourFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('delYourFeedStart')
       const token = currentUser.state.currentUser.token
