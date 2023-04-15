@@ -151,6 +151,9 @@ export default {
                 break
               }
             }
+            if (article.count === 0) {
+              this.clearInterface(article)
+            }
           })
           break
         }
@@ -171,7 +174,7 @@ export default {
     clearInterface(article) {
       this.paginatedItems = this.paginatedItems.filter(item => item.id !== article.id)
       this.feed.data = this.feed.data.filter(item => item.id !== article.id)
-      this.delFeedData.delData = this.delFeedData.delData.filter(item => item.id !== article.id)
+      this.delFeedData.delData.data = this.delFeedData.delData.data.filter(item => item.id !== article.id)
     },
     getOrder() {
       this.$store.dispatch('orderYourFeed', {apiUrl: `/order`})
