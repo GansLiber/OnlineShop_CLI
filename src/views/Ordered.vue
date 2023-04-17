@@ -1,7 +1,6 @@
 <template>
   <div class='home'>
     <div class='banner'>
-      <img src='#' alt='Просто купить'>
       <div class='banner-text'>
         <h3>Заказано</h3>
       </div>

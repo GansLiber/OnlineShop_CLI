@@ -8,7 +8,8 @@
       @click='getOrder(paginatedItems)'
     >Заказать
     </my-button>
-    <div v-if='paginatedItems.length<1'><h2>Вы еще ничго не добавили в корзину</h2></div>
+    <div v-if='paginatedItems.length<1 && typePar==="myFeed"'><h2>Вы еще ничго не добавили в корзину</h2></div>
+    <div v-if='paginatedItems.length<1 && typePar==="order"'><h2>Вы еще ничго не заказали</h2></div>
     <div v-if='feed' class='tw-feed-list-container'>
       <div class='tw-feed-list'>
         <div
@@ -166,7 +167,7 @@ export default {
     delAll(article) {
       for (let deleted of this.delFeedData.data) {
         if (deleted.product_id === article.product_id) {
-          console.log('wp', article.id)
+          // console.log('wp', article.id)
           this.$store.dispatch('delYourFeed', {
             apiUrl: `/cart/${deleted.id}`
           }).then(() => {

@@ -1,6 +1,6 @@
 <template>
-  <ul v-for='error in errors' class='error'>
-    <li>{{ error }}</li>
+  <ul >
+    <li v-for='error in errors' class='error'>{{ error }}</li>
   </ul>
 </template>
 
@@ -28,9 +28,7 @@ export default {
 .error {
   padding-left: 0;
   max-width: 300px;
-}
-
-.error > li {
   color: #940909;
 }
+
 </style>
