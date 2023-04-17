@@ -84,9 +84,11 @@ const actions = {
   getFeed(context, {apiUrl}) {
     return new Promise(resolve => {
       context.commit('getFeedStart')
-      const token = currentUser.state.currentUser.token
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
-
+      if (currentUser.state.currentUser){
+        const token = currentUser.state.currentUser.token
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      }
+      // const token = currentUser.state.currentUser.token
       feedApi.getFeed(apiUrl).then(response => {
         context.commit('getFeedSuccess', response.data)
         resolve(response.data)

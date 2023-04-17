@@ -66,7 +66,6 @@ const mutations = {
 
 const actions = {
   register(context, credentials) {
-    console.log('credentials', credentials)
     context.commit('registerStart')
     return new Promise(resolve => {
       authApi.register(credentials).then(response => {
@@ -76,7 +75,6 @@ const actions = {
         setItem('fio', credentials.fio)
         setItem('email', credentials.email)
         setItem('password', credentials.password)
-        console.log('swapppsss', this.state.currentUser)
         resolve(response)
       })
         .catch(result => {
@@ -144,6 +142,7 @@ const actions = {
 
     console.log('ooo', state.currentUser)
 
+    //tbgretbrtbffe
     // let credentials = {email: email, password: password}
     // console.log('emailTypo', credentials)
     // return new Promise(resolve => {

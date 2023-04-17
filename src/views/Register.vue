@@ -75,6 +75,7 @@ h2 {
   position: relative;
   margin-right: 38px;
   margin-bottom: 20px;
+  margin-top: 100px;
 }
 
 .register-container {

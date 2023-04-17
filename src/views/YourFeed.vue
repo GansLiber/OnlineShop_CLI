@@ -14,7 +14,6 @@
 
 
 <script>
-// @ is an alias to /src
 import TwFeed from '@/components/Feed'
 
 export default {

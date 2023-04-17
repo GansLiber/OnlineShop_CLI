@@ -45,6 +45,7 @@ export default {
       })
         .then(credentials => {
           this.$router.push({name: 'globFeed'})
+          this.$store.dispatch('loginAgain')
         })
     }
   },
@@ -69,6 +70,7 @@ h2 {
   position: relative;
   margin-right: 38px;
   margin-bottom: 20px;
+  margin-top: 100px;
 }
 
 .login-container {
